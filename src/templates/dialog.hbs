@@ -12,22 +12,61 @@
         </label>
 
         <hr>
-        <button onclick="{{plugin}}.confirmStep('Select-Fields')" style="float: right">Confirm</button>
+        <button onclick="{{plugin}}.checkSelectAndConfirmStep('Select-Fields')" style="float: right">Confirm</button>
     </div>
 
     <h4>2. Select Fields</h4>
     <div class="hidden" id="{{prefix}}-Select-Fields-Container">
         Export Fields:
-        {{#each fieldOptions}}
-            <label>
-                {{this}}
-                <input type="checkbox" value="{{@key}}" name="chkFields"
-                    {{#if_eq @key 'guid'}}
-                       onclick="return false;" checked="checked"
-                    {{/if_eq}}
-                />
-            </label>
-        {{/each}}
+        <table>
+           <tr>
+               <th>Data</th>
+               <th>State</th>
+               <th>Inventory</th>
+           </tr>
+            <tr>
+                <td>
+                    {{#each fieldOptions.data}}
+                        <label>
+                            <input type="checkbox" value="{{@key}}" name="chkFields"
+                                {{#if_eq @key 'guid'}}
+                                   onclick="return false;" checked="checked"
+                                {{/if_eq}}
+                            />
+                            {{this}}
+                            <br>
+                        </label>
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each fieldOptions.state}}
+                        <label>
+                            <input type="checkbox" value="{{@key}}" name="chkFields"
+                                {{#if_eq @key 'guid'}}
+                                   onclick="return false;" checked="checked"
+                                {{/if_eq}}
+                            />
+                            {{this}}
+                            <br>
+                        </label>
+                    {{/each}}
+                </td>
+                <td>
+                    {{#each fieldOptions.inventory}}
+                        <label>
+                            <input type="checkbox" value="{{@key}}" name="chkFields"
+                                {{#if_eq @key 'guid'}}
+                                   onclick="return false;" checked="checked"
+                                {{/if_eq}}
+                            />
+                            {{this}}
+                            <br>
+                        </label>
+                    {{/each}}
+                </td>
+            </tr>
+        </table>
+
 
         <hr>
         <button onclick="{{plugin}}.confirmStep('Select-Format')" style="float: right">Confirm</button>

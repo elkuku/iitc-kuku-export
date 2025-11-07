@@ -17,7 +17,7 @@ class ExportPortals implements Plugin.Class {
     private dialogHelper: DialogHelper
     private exportHelper: ExportHelper
 
-    private dialog: JQuery | undefined
+    private dialog?: JQuery
 
     init() {
         console.log(`${PLUGIN_NAME} ${VERSION}`)
@@ -55,6 +55,16 @@ class ExportPortals implements Plugin.Class {
 
     public switchFormat(format: string): void {
         this.exportFormat = format
+    }
+
+    public checkSelectAndConfirmStep(step:string) {
+        if (this.selectionMode === undefined) {
+            alert('Please choose a selection mode')
+
+            return
+        }
+
+        this.confirmStep(step)
     }
 
     public confirmStep(step:string) {

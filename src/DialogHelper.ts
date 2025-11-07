@@ -31,17 +31,23 @@ export class DialogHelper {
         }
 
         const fieldOptions = {
-            guid: 'GUID',
-            title: 'Title',
-            lat: 'Latitude',
-            lng: 'Longitude',
-            level: 'Level',
-            team: 'Team',
-            health: 'Health',
-            resCount: 'Resonator Count',
-            timestamp: 'Timestamp',
-            keys: 'Keys',
-            keyData: 'Key Data',
+            data:{
+                guid: 'GUID',
+                title: 'Title',
+                lat: 'Latitude',
+                lng: 'Longitude',
+            },
+            state:{
+                level: 'Level',
+                team: 'Team',
+                health: 'Health',
+                resCount: 'Resonator Count',
+                timestamp: 'Timestamp',
+            },
+            inventory:{
+                keys: 'Keys',
+                keyData: 'Key Data',
+            }
         }
 
         const data = {
@@ -52,24 +58,17 @@ export class DialogHelper {
             fieldOptions: fieldOptions,
         }
 
-        const dialog = window.dialog({
+       return window.dialog({
             id: this.pluginName,
+            position:{
+                my: 'top',
+                at: 'top',
+                of: window
+            },
+            width:600,
             title: 'Export',
             html: template(data),
-        }).parent()
-
-        const windowHeight: number = $(window).height() ?? 100
-        const windowWidth: number = $(window).width() ?? 100
-
-        const dialogHeight: number = dialog.height() ?? 50
-        const dialogWidth: number = dialog.width() ?? 50
-
-        dialog
-            .css('width', '600px')
-            .css('top', (windowHeight - dialogHeight) / 2)
-            .css('left', (windowWidth - dialogWidth) / 2)
-
-        return dialog
+        })
     }
 
     public findFieldOptions(): string[] {
@@ -100,11 +99,11 @@ export class DialogHelper {
         const containers = ['Select-Portals', 'Select-Fields', 'Select-Format', 'Output']
 
         for (const container of containers) {
-            const element = document.getElementById(`${this.pluginName}-${container}-Container`)!
-            element.classList.add('hidden')
+            document.getElementById(`${this.pluginName}-${container}-Container`)!
+                .classList.add('hidden')
         }
 
-        const element1 = document.getElementById(`${this.pluginName}-${step}-Container`)!
-        element1.classList.remove('hidden')
+        document.getElementById(`${this.pluginName}-${step}-Container`)!
+            .classList.remove('hidden')
     }
 }
