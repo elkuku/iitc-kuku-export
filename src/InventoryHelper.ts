@@ -1,6 +1,10 @@
 import {Inventory, KeyInfo} from './types/Types'
 import {IngressAPI} from './types/IngressApi'
 import {IngressInventory} from './types/IngressInventory'
+import {Utility} from './Utility'
+import Items = Inventory.Items;
+
+const KEY_SETTINGS = 'plugin-kuku-export'
 
 declare global {
     interface Window {
@@ -14,7 +18,36 @@ declare global {
 }
 
 export class InventoryHelper {
-    public async getInventory() {
+    private expires = 0
+    private inventory: Items
+
+    public async getInventory(): Promise<Items> {
+        console.log('Load inventory...')
+        if (this.loadInventoryFromLocalStorage()) {
+            console.log('... from local storage...')
+            if (Date.now() > this.expires) {
+                console.log(`... has expired ${Utility.formatTimeString(this.expires - Date.now())} :( ... refreshing...`)
+
+                try {
+                    return await this.loadInventory()
+                } catch (error) {
+                    console.error(error)
+                    return this.inventory
+                }
+            }
+
+            console.log(`OK - still has ${Utility.formatTimeString(this.expires - Date.now())}`)
+
+            return this.inventory
+        } else {
+            console.log('... no local storage :(')
+        }
+
+
+        return await this.loadInventory()
+    }
+
+    private async loadInventory() {
         const inventory: Inventory.Items = {
             keys: [],
             boosts: [],
@@ -119,6 +152,9 @@ export class InventoryHelper {
                         break
                 }
             }
+
+            this.inventory = inventory
+            this.saveInventoryToLocalStorage()
         } catch (error) {
             const element = document.getElementById('iitc-inventory-content')
             const message: string = error.message ?? error
@@ -207,26 +243,51 @@ export class InventoryHelper {
         return keys
     }
 
-    private async fetchInventory():Promise<IngressInventory.Items> {
-        const isEnabled = false // todo load data from cache
+    private async fetchInventory(): Promise<IngressInventory.Items[]> {
+        const response = await this.postAjax<IngressAPI.InventoryResponse>('getInventory', {lastQueryTimestamp: 0})
 
-        let items: IngressInventory.Items
+        if (response.result.length === 0) {
+            throw new Error('Received an empty response')
+        }
+        return response.result
+    }
 
-        if (isEnabled) {
-            const response = await this.postAjax<IngressAPI.InventoryResponse>('getInventory', {lastQueryTimestamp: 0})
+    private loadInventoryFromLocalStorage(): boolean {
+        try {
+            const storage: string = localStorage[KEY_SETTINGS]
 
-            items = response.result
+            if (!storage || storage == '') return false
 
-        } else {
-            // todo REMOVE TEST DATA
-            // eslint-disable-next-line @typescript-eslint/no-require-imports
-            const json = require('../testfiles/example.json')
+            const localData = JSON.parse(storage)
 
-            items = json.result
+            if (!(localData instanceof Object)) return false
+
+            if ('inventory' in localData && localData.data instanceof Object) {
+                this.inventory = localData.data
+            }
+
+            if ('expires' in localData && typeof localData.expires == 'number') {
+                this.expires = localData.expires
+            }
+
+            return true
+        } catch (error) {
+            console.log('loadInventory error', error)
         }
 
-        return items
+        return false
     }
+
+    private saveInventoryToLocalStorage() {
+        // Request data only once per 10 minutes, or we might hit a rate limit!
+        this.expires = Date.now() + 10 * 60 * 1000
+
+        localStorage[KEY_SETTINGS] = JSON.stringify({
+            inventory: this.inventory,
+            expires: this.expires,
+        })
+    }
+
 
     private postAjax<T>(action: string, data: unknown): Promise<T> {
         return new Promise((resolve, reject) =>
