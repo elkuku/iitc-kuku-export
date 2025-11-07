@@ -2,12 +2,13 @@ import Portal = IITC.Portal;
 
 export class IitcHelper {
 
-    public findViewPortals(): Portal[] {
+    public findPortalsInView(): Portal[] {
         const portals: Portal[] = []
 
         for (const i in window.portals) {
             const portal = window.portals[i]
 
+            // Portals without a "title" are not completely loaded
             if (portal.options.data.title) {
                 portals.push(portal)
             }
@@ -16,9 +17,9 @@ export class IitcHelper {
         return portals
     }
 
-    public findPolygonPortals(): Portal[] {
+    public findPortalsInPolygons(): Portal[] {
         if (!window.plugin.drawTools) {
-            alert('DrawTools are required')
+            alert('DrawTools plugin is required')
 
             return []
         }
@@ -35,6 +36,7 @@ export class IitcHelper {
         for (const i in window.portals) {
             const portal = window.portals[i]
 
+            // Portals without a "title" are not completely loaded
             if (!portal.options.data.title) {
                 continue
             }
@@ -62,7 +64,7 @@ export class IitcHelper {
             }
         }
 
-        console.log(`Found ${layers.length} polygon(s)`)
+        console.log(`Found ${polygons.length} polygon(s)`)
 
         return polygons
     }

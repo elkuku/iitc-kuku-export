@@ -1,8 +1,8 @@
 {
-  "name": "IITC plugin: ExportPortals",
-  "id": "iitc_plugin_ExportPortals",
-  "category": "Misc",
-  "description": "",
+  "name": "IITC plugin: KuKuExport",
+  "id": "iitc_plugin_KuKu_Export",
+  "category": "Export",
+  "description": "Export portal and inventory data",
   "author": "elkuku",
   "entry": "src/Main.ts",
   "minimize": false,

@@ -2,12 +2,15 @@
 import dialogTemplate from './templates/dialog.hbs' with {type: 'text'}
 
 import * as Handlebars from 'handlebars'
+import {HelperOptions} from 'handlebars'
 
-Handlebars.registerHelper('if_eq', function (argument1, argument2, options) {
-    // @ts-expect-error 'llllllllll'
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call
-    return (argument1 == argument2) ? options.fn(this) : options.inverse(this)
-})
+
+Handlebars.registerHelper(
+    'if_eq',
+    function (this: any, argument1: string, argument2: string, options: HelperOptions): string {
+        return (argument1 === argument2) ? options.fn(this) : options.inverse(this)
+    }
+)
 
 export class DialogHelper {
     public constructor(

@@ -105,10 +105,10 @@ export class ExportHelper {
 
         switch (method) {
             case 'view':
-                portals = this.iitcHelper.findViewPortals()
+                portals = this.iitcHelper.findPortalsInView()
                 break
             case 'polygon':
-                portals = this.iitcHelper.findPolygonPortals()
+                portals = this.iitcHelper.findPortalsInPolygons()
                 break
             default:
                 throw new Error(`Unsupported method: ${method}`)

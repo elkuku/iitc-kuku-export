@@ -1,4 +1,17 @@
-import {Inventory, KeyInfo} from "./types/Types"
+import {Inventory, KeyInfo} from './types/Types'
+import {IngressAPI} from './types/IngressApi'
+import {IngressInventory} from './types/IngressInventory'
+
+declare global {
+    interface Window {
+        postAjax: <T>(
+            action: string,
+            data: unknown,
+            onSuccess: (returnValue: T) => void,
+            onError: (xhr: unknown, status: string, error: string) => void
+        ) => void
+    }
+}
 
 export class InventoryHelper {
     public async getInventory() {
@@ -194,13 +207,13 @@ export class InventoryHelper {
         return keys
     }
 
-    private async fetchInventory() {
+    private async fetchInventory():Promise<IngressInventory.Items> {
         const isEnabled = false // todo load data from cache
 
-        let items: any[]
+        let items: IngressInventory.Items
 
         if (isEnabled) {
-            const response = await this.postAjax('getInventory', {lastQueryTimestamp: 0})
+            const response = await this.postAjax<IngressAPI.InventoryResponse>('getInventory', {lastQueryTimestamp: 0})
 
             items = response.result
 
@@ -212,18 +225,18 @@ export class InventoryHelper {
             items = json.result
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return items
     }
 
-    private postAjax(action: string, data: any): PromiseLike<any> {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return new Promise((resolve, reject) => window.postAjax(
-            action,
-            data,
-            (returnValue) => resolve(returnValue),
-            // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-            (_, textStatus, errorThrown) => reject(textStatus + ': ' + errorThrown)
-        ))
+    private postAjax<T>(action: string, data: unknown): Promise<T> {
+        return new Promise((resolve, reject) =>
+            window.postAjax<T>(
+                action,
+                data,
+                (returnValue) => resolve(returnValue),
+                (_: unknown, status: string, error: string) =>
+                    reject(new Error(`${status}: ${error}`))
+            )
+        )
     }
 }

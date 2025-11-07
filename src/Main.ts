@@ -7,7 +7,7 @@ import './types/Types.ts'
 
 import {ExportOptions} from "./types/Types"
 
-const PLUGIN_NAME = 'ExportPortals'
+const PLUGIN_NAME = 'KuKuExport'
 
 class ExportPortals implements Plugin.Class {
 
@@ -34,7 +34,7 @@ class ExportPortals implements Plugin.Class {
     private createButtons(): void {
         $('#toolbox').append(
             $('<a>', {
-                text: 'KuKuXport',
+                text: 'KExport',
                 click: () => this.showDialog()
             })
         )
