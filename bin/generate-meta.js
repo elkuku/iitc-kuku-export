@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 
-const baseUrl = 'http://localhost:8100' // 👈 Change this if needed
+const baseUrl = 'http://localhost:8000' // 👈 Change this if needed
 const dir = process.cwd()+'/dist'
 
-console.log(dir)
+console.log(`Processing files in:${dir}`)
 
 function parseMeta(fileContent) {
     const meta = {}
