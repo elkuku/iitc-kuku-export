@@ -32,19 +32,17 @@ class ExportPortals implements Plugin.Class {
     }
 
     private createButtons(): void {
-        $('#toolbox').append(
-            $('<a>', {
-                text: 'KExport',
-                click: () => this.showDialog()
-            })
-        )
+        IITC.toolbox.addButton({
+            label: 'KExport',
+            action: main.showDialog
+        })
     }
 
     private showDialog(): void {
-        if (!this.dialog) {
-            this.dialog = this.dialogHelper.getDialog()
-            this.dialog.on('dialogclose', () => {
-                this.dialog = undefined
+        if (!main.dialog) {
+            main.dialog = main.dialogHelper.getDialog()
+            main.dialog.on('dialogclose', () => {
+                main.dialog = undefined
             })
         }
     }

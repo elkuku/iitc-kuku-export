@@ -1,16 +1,17 @@
 // @ts-expect-error "Import attributes are only supported when the --module option is set to esnext, nodenext, or preserve"
 import dialogTemplate from './templates/dialog.hbs' with {type: 'text'}
 
-import * as Handlebars from 'handlebars'
-import {HelperOptions} from 'handlebars'
+interface HelperHandlebars {
+    compile: (templateString: any) => Handlebars.TemplateDelegate;
+    registerHelper: (name: string, function_: Handlebars.HelperDelegate) => void;
+}
 
-
-Handlebars.registerHelper(
-    'if_eq',
-    function (this: any, argument1: string, argument2: string, options: HelperOptions): string {
-        return (argument1 === argument2) ? options.fn(this) : options.inverse(this)
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace plugin {
+        const HelperHandlebars: HelperHandlebars | undefined
     }
-)
+}
 
 export class DialogHelper {
     public constructor(
@@ -18,7 +19,20 @@ export class DialogHelper {
     ) {}
 
     public getDialog(): JQuery {
-        const template: HandlebarsTemplateDelegate = Handlebars.compile(dialogTemplate)
+        const handlebars = window.plugin.HelperHandlebars
+
+        if (!handlebars) {
+            throw new Error('Handlebars helper not found')
+        }
+
+        handlebars.registerHelper(
+            'if_eq',
+            function (this: any, argument1: string, argument2: string, options: Handlebars.HelperOptions): string {
+                return (argument1 === argument2) ? options.fn(this) : options.inverse(this)
+            }
+        )
+
+        const template = handlebars.compile(dialogTemplate)
 
         const selectOptions = {
             '': 'Select...',

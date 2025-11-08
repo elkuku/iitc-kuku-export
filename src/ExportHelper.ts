@@ -108,6 +108,7 @@ export class ExportHelper {
                 portals = this.iitcHelper.findPortalsInView()
                 break
             case 'polygon':
+                // TODO: Review: IITC.utils.isPointInPolygon
                 portals = this.iitcHelper.findPortalsInPolygons()
                 break
             default:
