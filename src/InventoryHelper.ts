@@ -83,8 +83,6 @@ export class InventoryHelper {
 
                 if (Object.prototype.hasOwnProperty.call(object, 'timedPowerupResource')) {
                     designation = object.timedPowerupResource.designation
-                } else {
-                    //console.log('NO timedPowerupResource', object)
                 }
 
                 switch (type) {
@@ -272,7 +270,7 @@ export class InventoryHelper {
 
             return true
         } catch (error) {
-            console.log('loadInventory error', error)
+            console.error('loadInventory error', error)
         }
 
         return false

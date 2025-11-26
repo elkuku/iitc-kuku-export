@@ -45,20 +45,20 @@ export class DialogHelper {
         }
 
         const fieldOptions = {
-            data:{
+            data: {
                 guid: 'GUID',
                 title: 'Title',
                 lat: 'Latitude',
                 lng: 'Longitude',
             },
-            state:{
+            state: {
                 level: 'Level',
                 team: 'Team',
                 health: 'Health',
                 resCount: 'Resonator Count',
                 timestamp: 'Timestamp',
             },
-            inventory:{
+            inventory: {
                 keys: 'Keys',
                 keyData: 'Key Data',
             }
@@ -72,14 +72,14 @@ export class DialogHelper {
             fieldOptions: fieldOptions,
         }
 
-       return window.dialog({
+        return window.dialog({
             id: this.pluginName,
-            position:{
+            position: {
                 my: 'top',
                 at: 'top',
                 of: window
             },
-            width:600,
+            width: 600,
             title: 'Export',
             html: template(data),
         })
@@ -108,8 +108,6 @@ export class DialogHelper {
     }
 
     public confirmStep(step: string) {
-        console.log('Dialog - step', step)
-
         const containers = ['Select-Portals', 'Select-Fields', 'Select-Format', 'Output']
 
         for (const container of containers) {

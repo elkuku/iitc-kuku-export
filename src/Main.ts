@@ -55,7 +55,7 @@ class ExportPortals implements Plugin.Class {
         this.exportFormat = format
     }
 
-    public checkSelectAndConfirmStep(step:string) {
+    public checkSelectAndConfirmStep(step: string) {
         if (this.selectionMode === undefined) {
             alert('Please choose a selection mode')
 
@@ -65,8 +65,7 @@ class ExportPortals implements Plugin.Class {
         this.confirmStep(step)
     }
 
-    public confirmStep(step:string) {
-        console.log('Main - step', step)
+    public confirmStep(step: string) {
         this.dialogHelper.confirmStep(step)
     }
 

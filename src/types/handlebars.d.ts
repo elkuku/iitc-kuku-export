@@ -19,7 +19,7 @@ declare namespace Handlebars {
         (context: T, options?: RuntimeOptions): string;
     }
 
-    export type Template<T = any> = TemplateDelegate<T>|string;
+    export type Template<T = any> = TemplateDelegate<T> | string;
 
     export interface RuntimeOptions {
         partial?: boolean;
@@ -46,6 +46,7 @@ declare namespace Handlebars {
     export interface HelperDelegate {
         (context?: any, arg1?: any, arg2?: any, arg3?: any, arg4?: any, arg5?: any, options?: HelperOptions): any;
     }
+
     export interface HelperDeclareSpec {
         [key: string]: HelperDelegate;
     }
@@ -57,24 +58,35 @@ declare namespace Handlebars {
 
     export function registerHelper(name: string, fn: HelperDelegate): void;
     export function registerHelper(name: HelperDeclareSpec): void;
+
     export function unregisterHelper(name: string): void;
 
     export function registerPartial(name: string, fn: Template): void;
     export function registerPartial(spec: { [name: string]: HandlebarsTemplateDelegate }): void;
+
     export function unregisterPartial(name: string): void;
 
     // TODO: replace Function with actual signature
     export function registerDecorator(name: string, fn: Function): void;
+
     export function unregisterDecorator(name: string): void;
 
     export function K(): void;
+
     export function createFrame(object: any): any;
+
     export function blockParams(obj: any[], ids: any[]): any[];
+
     export function log(level: number, obj: any): void;
+
     export function parse(input: string, options?: ParseOptions): hbs.AST.Program;
+
     export function parseWithoutProcessing(input: string, options?: ParseOptions): hbs.AST.Program;
+
     export function compile<T = any>(input: any, options?: CompileOptions): HandlebarsTemplateDelegate<T>;
+
     export function precompile(input: any, options?: PrecompileOptions): TemplateSpecification;
+
     export function template<T = any>(precompilation: TemplateSpecification): HandlebarsTemplateDelegate<T>;
 
     export function create(): typeof Handlebars;
@@ -94,6 +106,7 @@ declare namespace Handlebars {
 
     export class Exception {
         constructor(message: string, node?: hbs.AST.Node);
+
         description: string;
         fileName: string;
         lineNumber?: any;
@@ -108,18 +121,27 @@ declare namespace Handlebars {
 
     export class SafeString {
         constructor(str: string);
+
         toString(): string;
+
         toHTML(): string;
     }
 
     export namespace Utils {
         export function escapeExpression(str: string): string;
+
         export function createFrame(object: any): any;
+
         export function blockParams(obj: any[], ids: any[]): any[];
-        export function isEmpty(obj: any) : boolean;
+
+        export function isEmpty(obj: any): boolean;
+
         export function extend(obj: any, ...source: any[]): any;
+
         export function toString(obj: any): string;
+
         export function isArray(obj: any): boolean;
+
         export function isFunction(obj: any): boolean;
     }
 
@@ -129,45 +151,81 @@ declare namespace Handlebars {
 
     interface ICompiler {
         accept(node: hbs.AST.Node): void;
+
         Program(program: hbs.AST.Program): void;
+
         BlockStatement(block: hbs.AST.BlockStatement): void;
+
         PartialStatement(partial: hbs.AST.PartialStatement): void;
+
         PartialBlockStatement(partial: hbs.AST.PartialBlockStatement): void;
+
         DecoratorBlock(decorator: hbs.AST.DecoratorBlock): void;
+
         Decorator(decorator: hbs.AST.Decorator): void;
+
         MustacheStatement(mustache: hbs.AST.MustacheStatement): void;
+
         ContentStatement(content: hbs.AST.ContentStatement): void;
+
         CommentStatement(comment?: hbs.AST.CommentStatement): void;
+
         SubExpression(sexpr: hbs.AST.SubExpression): void;
+
         PathExpression(path: hbs.AST.PathExpression): void;
+
         StringLiteral(str: hbs.AST.StringLiteral): void;
+
         NumberLiteral(num: hbs.AST.NumberLiteral): void;
+
         BooleanLiteral(bool: hbs.AST.BooleanLiteral): void;
+
         UndefinedLiteral(): void;
+
         NullLiteral(): void;
+
         Hash(hash: hbs.AST.Hash): void;
     }
 
     export class Visitor implements ICompiler {
         accept(node: hbs.AST.Node): void;
+
         acceptKey(node: hbs.AST.Node, name: string): void;
+
         acceptArray(arr: hbs.AST.Expression[]): void;
+
         Program(program: hbs.AST.Program): void;
+
         BlockStatement(block: hbs.AST.BlockStatement): void;
+
         PartialStatement(partial: hbs.AST.PartialStatement): void;
+
         PartialBlockStatement(partial: hbs.AST.PartialBlockStatement): void;
+
         DecoratorBlock(decorator: hbs.AST.DecoratorBlock): void;
+
         Decorator(decorator: hbs.AST.Decorator): void;
+
         MustacheStatement(mustache: hbs.AST.MustacheStatement): void;
+
         ContentStatement(content: hbs.AST.ContentStatement): void;
+
         CommentStatement(comment?: hbs.AST.CommentStatement): void;
+
         SubExpression(sexpr: hbs.AST.SubExpression): void;
+
         PathExpression(path: hbs.AST.PathExpression): void;
+
         StringLiteral(str: hbs.AST.StringLiteral): void;
+
         NumberLiteral(num: hbs.AST.NumberLiteral): void;
+
         BooleanLiteral(bool: hbs.AST.BooleanLiteral): void;
+
         UndefinedLiteral(): void;
+
         NullLiteral(): void;
+
         Hash(hash: hbs.AST.Hash): void;
     }
 
@@ -227,13 +285,13 @@ type KnownHelpers = {
 };
 
 type BuiltinHelperName =
-    "helperMissing"|
-    "blockHelperMissing"|
-    "each"|
-    "if"|
-    "unless"|
-    "with"|
-    "log"|
+    "helperMissing" |
+    "blockHelperMissing" |
+    "each" |
+    "if" |
+    "unless" |
+    "with" |
+    "log" |
     "lookup";
 
 type CustomHelperName = string;
@@ -287,7 +345,8 @@ declare namespace hbs {
             blockParams: string[];
         }
 
-        interface Statement extends Node {}
+        interface Statement extends Node {
+        }
 
         interface MustacheStatement extends Statement {
             type: 'MustacheStatement';
@@ -298,7 +357,8 @@ declare namespace hbs {
             strip: StripFlags;
         }
 
-        interface Decorator extends MustacheStatement { }
+        interface Decorator extends MustacheStatement {
+        }
 
         interface BlockStatement extends Statement {
             type: 'BlockStatement';
@@ -312,7 +372,8 @@ declare namespace hbs {
             closeStrip: StripFlags;
         }
 
-        interface DecoratorBlock extends BlockStatement { }
+        interface DecoratorBlock extends BlockStatement {
+        }
 
         interface PartialStatement extends Statement {
             type: 'PartialStatement';
@@ -345,7 +406,8 @@ declare namespace hbs {
             strip: StripFlags;
         }
 
-        interface Expression extends Node {}
+        interface Expression extends Node {
+        }
 
         interface SubExpression extends Expression {
             type: 'SubExpression';
@@ -362,7 +424,9 @@ declare namespace hbs {
             original: string;
         }
 
-        interface Literal extends Expression {}
+        interface Literal extends Expression {
+        }
+
         interface StringLiteral extends Literal {
             type: 'StringLiteral';
             value: string;
@@ -407,7 +471,9 @@ declare namespace hbs {
 
         interface helpers {
             helperExpression(node: Node): boolean;
+
             scopeId(path: PathExpression): boolean;
+
             simpleId(path: PathExpression): boolean;
         }
     }

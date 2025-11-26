@@ -64,8 +64,6 @@ export class IitcHelper {
             }
         }
 
-        console.log(`Found ${polygons.length} polygon(s)`)
-
         return polygons
     }
 
