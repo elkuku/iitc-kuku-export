@@ -260,8 +260,8 @@ export class InventoryHelper {
 
             if (!(localData instanceof Object)) return false
 
-            if ('inventory' in localData && localData.data instanceof Object) {
-                this.inventory = localData.data
+            if ('inventory' in localData && localData.inventory instanceof Object) {
+                this.inventory = localData.inventory
             }
 
             if ('expires' in localData && typeof localData.expires == 'number') {

@@ -92,6 +92,9 @@ export class ExportHelper {
             case 'json':
                 exportString = JSON.stringify(exported, this.replacer, 2)
                 break
+            case 'csv':
+                exportString = this.toCsv(exported)
+                break
 
             default:
                 throw new Error(`Unsupported format ${options.format}`)
@@ -123,5 +126,16 @@ export class ExportHelper {
     private replacer(key: any, value: any[] | Map<any, any>) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return value instanceof Map ? Object.fromEntries(value) : value
+    }
+
+    private toCsv(rows: Record<string, any>[]) {
+        if (rows.length === 0) return ''
+
+        const headers = Object.keys(rows[0])
+        const lines = rows.map(row =>
+            headers.map(h => JSON.stringify(row[h] ?? '')).join(',')
+        )
+
+        return [headers.join(','), ...lines].join('\n')
     }
 }

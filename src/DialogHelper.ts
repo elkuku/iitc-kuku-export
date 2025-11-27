@@ -22,6 +22,7 @@ export class DialogHelper {
         const handlebars = window.plugin.HelperHandlebars
 
         if (!handlebars) {
+            alert('Please install and activate the Handlebars helper plugin')
             throw new Error('Handlebars helper not found')
         }
 
@@ -41,7 +42,8 @@ export class DialogHelper {
         }
 
         const formatOptions = {
-            json: 'JSON'
+            json: 'JSON',
+            csv: 'CSV',
         }
 
         const fieldOptions = {
@@ -60,7 +62,7 @@ export class DialogHelper {
             },
             inventory: {
                 keys: 'Keys',
-                keyData: 'Key Data',
+                keyData: 'Key Details',
             }
         }
 
@@ -81,6 +83,7 @@ export class DialogHelper {
             },
             width: 600,
             title: 'Export',
+            buttons: [],
             html: template(data),
         })
     }

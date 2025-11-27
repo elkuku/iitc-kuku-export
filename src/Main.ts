@@ -96,6 +96,31 @@ class ExportPortals implements Plugin.Class {
 
         output.value = exportString
     }
+
+    public copyToClipboard(id: string) {
+        const element = document.getElementById(id) as HTMLTextAreaElement
+        if (!element) return
+
+        navigator.clipboard.writeText(element.value)
+            .then(() => alert('copied'))
+            .catch(error => alert(`copy failed: ${error}`))
+    }
+
+    public saveToFile(id: string) {
+        const element = document.getElementById(id) as HTMLTextAreaElement
+        if (!element) return
+
+        const blob = new Blob([element.value], {type: 'text/plain'})
+        const filename = `output.${this.exportFormat}`
+
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.click()
+
+        URL.revokeObjectURL(url)
+    }
 }
 
 export const main = new ExportPortals()

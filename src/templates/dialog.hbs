@@ -11,13 +11,12 @@
             </select>
         </label>
 
-        <hr>
         <button onclick="{{plugin}}.checkSelectAndConfirmStep('Select-Fields')" style="float: right">Confirm</button>
+        <hr>
     </div>
 
     <h4>2. Select Fields</h4>
     <div class="hidden" id="{{prefix}}-Select-Fields-Container">
-        Export Fields:
         <table>
             <tr>
                 <th>Data</th>
@@ -67,9 +66,8 @@
             </tr>
         </table>
 
-
-        <hr>
         <button onclick="{{plugin}}.confirmStep('Select-Format')" style="float: right">Confirm</button>
+        <hr>
 
     </div>
 
@@ -84,16 +82,17 @@
             </select>
         </label>
 
-        <hr>
         <button onclick="{{plugin}}.confirmStep('Output');{{plugin}}.doExport()" style="float: right">Export</button>
+        <hr>
 
         <div id="{{prefix}}Status"></div>
     </div>
 
-    <h4>Output</h4>
+    <h4>4. Output</h4>
     <div class="hidden" id="{{prefix}}-Output-Container">
         <label>
-            Output
+            <button onclick="{{plugin}}.copyToClipboard('{{prefix}}Output')">Copy</button>
+            <button onclick="{{plugin}}.saveToFile('{{prefix}}Output')">Save</button>
             <textarea id="{{prefix}}Output" cols="80" rows="20" style="width: 100%; white-space: nowrap;"></textarea>
         </label>
     </div>
