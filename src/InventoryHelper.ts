@@ -43,7 +43,6 @@ export class InventoryHelper {
             console.log('... no local storage :(')
         }
 
-
         return await this.loadInventory()
     }
 
@@ -285,7 +284,6 @@ export class InventoryHelper {
             expires: this.expires,
         })
     }
-
 
     private postAjax<T>(action: string, data: unknown): Promise<T> {
         return new Promise((resolve, reject) =>

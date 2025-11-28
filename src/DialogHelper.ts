@@ -1,5 +1,7 @@
 // @ts-expect-error "Import attributes are only supported when the --module option is set to esnext, nodenext, or preserve"
 import dialogTemplate from './templates/dialog.hbs' with {type: 'text'}
+// @ts-expect-error "Import attributes are only supported when the --module option is set to esnext, nodenext, or preserve"
+import infoTemplate from './templates/info-dialog.hbs' with {type: 'text'}
 
 interface HelperHandlebars {
     compile: (templateString: any) => Handlebars.TemplateDelegate;
@@ -14,11 +16,11 @@ declare global {
 }
 
 export class DialogHelper {
+    private handlebars: HelperHandlebars
+
     public constructor(
         private pluginName: string
-    ) {}
-
-    public getDialog(): JQuery {
+    ) {
         const handlebars = window.plugin.HelperHandlebars
 
         if (!handlebars) {
@@ -33,7 +35,11 @@ export class DialogHelper {
             }
         )
 
-        const template = handlebars.compile(dialogTemplate)
+        this.handlebars = handlebars
+    }
+
+    public getDialog(): JQuery {
+        const template = this.handlebars.compile(dialogTemplate)
 
         const selectOptions = {
             '': 'Select...',
@@ -120,5 +126,28 @@ export class DialogHelper {
 
         document.getElementById(`${this.pluginName}-${step}-Container`)!
             .classList.remove('hidden')
+    }
+
+    public showInfo() {
+        const template = this.handlebars.compile(infoTemplate)
+
+        const data = {
+            product: {
+                name: this.pluginName,
+                version: VERSION,
+            },
+        }
+
+        return window.dialog({
+            id: this.pluginName + 'Info',
+            position: {
+                my: 'top',
+                at: 'top',
+                of: window
+            },
+            width: 600,
+            title: 'Info',
+            html: template(data),
+        })
     }
 }

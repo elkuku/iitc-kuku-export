@@ -98,6 +98,10 @@ class ExportPortals implements Plugin.Class {
         output.value = exportString
     }
 
+    public showInfo() {
+        this.dialogHelper.showInfo()
+    }
+
     public copyToClipboard(id: string) {
         const element = document.getElementById(id) as HTMLTextAreaElement
         if (!element) return
