@@ -1,24 +1,31 @@
 <div id="{{prefix}}Container">
 
-    <button class="infoButton" onclick="{{plugin}}.showInfo()">Info</button>
-
-    <h4><a href="#" onclick="{{plugin}}.confirmStep('Select-Portals')">1. Select Portals</a></h4>
+    <h4><a href="#" onclick="{{main}}.confirmStep('Select-Portals')">1. Select Portals</a></h4>
     <div id="{{prefix}}-Select-Portals-Container">
         <label>
             Selection Mode:
-            <select onchange="{{plugin}}.switchMode(this.value)">
+            <select onchange="{{main}}.switchMode(this.value)">
                 {{#each selectOptions}}
                     <option value="{{@key}}">{{this}}</option>
                 {{/each}}
             </select>
         </label>
 
-        <button onclick="{{plugin}}.checkSelectAndConfirmStep('Select-Fields')" style="float: right">Confirm</button>
+        <button onclick="{{main}}.checkSelectAndConfirmStep('Select-Fields')" style="float: right">Confirm</button>
         <hr>
     </div>
 
     <h4>2. Select Fields</h4>
     <div class="hidden" id="{{prefix}}-Select-Fields-Container">
+        <label>
+            From preset:
+            <select onchange="{{main}}.applyPreset(this.value)">
+                <option value="">Select...</option>
+                {{#each presets}}
+                    <option>{{this}}</option>
+                {{/each}}
+        </select>
+        </label>
         <table>
             <tr>
                 <th>Data</th>
@@ -67,8 +74,8 @@
                 </td>
             </tr>
         </table>
-
-        <button onclick="{{plugin}}.confirmStep('Select-Format')" style="float: right">Confirm</button>
+        <label>Save to preset: <input id="{{prefix}}-Preset-Input"></label><button onclick="{{main}}.savePreset()">Save</button>
+        <button onclick="{{main}}.confirmStep('Select-Format')" style="float: right">Confirm</button>
         <hr>
 
     </div>
@@ -77,26 +84,28 @@
     <div class="hidden" id="{{prefix}}-Select-Format-Container">
         <label>
             Format:
-            <select onchange="{{plugin}}.switchFormat(this.value)">
+            <select onchange="{{main}}.switchFormat(this.value)">
                 {{#each formatOptions}}
                     <option value="{{@key}}">{{this}}</option>
                 {{/each}}
             </select>
         </label>
 
-        <button onclick="{{plugin}}.confirmStep('Output');{{plugin}}.doExport()" style="float: right">Export</button>
+        <button onclick="{{main}}.confirmStep('Output');{{main}}.doExport()" style="float: right">Export</button>
         <hr>
 
         <div id="{{prefix}}Status"></div>
     </div>
 
-    <h4>4. Output</h4>
+    <h4>Result</h4>
     <div class="hidden" id="{{prefix}}-Output-Container">
         <label>
-            <button onclick="{{plugin}}.copyToClipboard('{{prefix}}Output')">Copy</button>
-            <button onclick="{{plugin}}.saveToFile('{{prefix}}Output')">Save</button>
+            <button onclick="{{main}}.copyToClipboard('{{prefix}}Output')">Copy</button>
+            <button onclick="{{main}}.saveToFile('{{prefix}}Output')">Save</button>
             <textarea id="{{prefix}}Output" cols="80" rows="20" style="width: 100%; white-space: nowrap;"></textarea>
         </label>
     </div>
+
+    <button class="infoButton" onclick="{{main}}.showInfo()">Info</button>
 
 </div>

@@ -16,18 +16,15 @@ declare global {
 }
 
 export class DialogHelper {
-    private handlebars: HelperHandlebars
+    private presets: Map<string, string[]>
 
     public constructor(
         private pluginName: string
-    ) {
-        const handlebars = window.plugin.HelperHandlebars
+    ) {}
 
-        if (!handlebars) {
-            alert('Please install and activate the Handlebars helper plugin')
-            throw new Error('Handlebars helper not found')
-        }
-
+    public getDialog(presets: Map<string, string[]>): JQuery {
+        this.presets = presets
+        const handlebars = this.getHandlebars()
         handlebars.registerHelper(
             'if_eq',
             function (this: any, argument1: string, argument2: string, options: Handlebars.HelperOptions): string {
@@ -35,11 +32,7 @@ export class DialogHelper {
             }
         )
 
-        this.handlebars = handlebars
-    }
-
-    public getDialog(): JQuery {
-        const template = this.handlebars.compile(dialogTemplate)
+        const template = handlebars.compile(dialogTemplate)
 
         const selectOptions = {
             '': 'Select...',
@@ -73,11 +66,12 @@ export class DialogHelper {
         }
 
         const data = {
-            plugin: 'window.plugin.' + this.pluginName,
+            main: 'window.plugin.' + this.pluginName,
             prefix: this.pluginName,
             selectOptions: selectOptions,
             formatOptions: formatOptions,
             fieldOptions: fieldOptions,
+            presets: presets.keys(),
         }
 
         return window.dialog({
@@ -96,16 +90,10 @@ export class DialogHelper {
 
     public findFieldOptions(): string[] {
         const options = []
-        const parentElement = document.getElementById(this.pluginName + 'Container')
 
-        if (!parentElement) {
-            console.error('findFieldOptions: parentElement not found')
+        const checkboxes = this.findFields()
 
-            return []
-        }
-
-        const checkboxes: NodeListOf<HTMLInputElement> =
-            parentElement.querySelectorAll('input[type="checkbox"][name="chkFields"]')
+        if (!checkboxes) return []
 
         for (const checkbox of checkboxes) {
             if (checkbox.checked) {
@@ -129,7 +117,7 @@ export class DialogHelper {
     }
 
     public showInfo() {
-        const template = this.handlebars.compile(infoTemplate)
+        const template = this.getHandlebars().compile(infoTemplate)
 
         const data = {
             product: {
@@ -149,5 +137,37 @@ export class DialogHelper {
             title: 'Info',
             html: template(data),
         })
+    }
+
+    private findFields(): NodeListOf<HTMLInputElement> {
+        const parentElement = document.getElementById(this.pluginName + 'Container')
+
+        if (!parentElement) {
+            console.error('findFieldOptions: parentElement not found')
+            throw new Error('findFieldOptions: parentElement not found')
+        }
+
+        return parentElement.querySelectorAll('input[type="checkbox"][name="chkFields"]')
+    }
+
+    private getHandlebars(): HelperHandlebars {
+        const handlebars = window.plugin.HelperHandlebars
+
+        if (!handlebars) {
+            alert(this.pluginName + ' - Please install and activate the Handlebars helper plugin')
+            throw new Error('Handlebars helper not found')
+        }
+
+        return handlebars
+    }
+
+    public applyPreset(name: string) {
+        const checkboxes = this.findFields()
+        const preset = name ? this.presets.get(name) : ['guid']
+        if (!preset) throw new Error('preset not found')
+
+        for (const checkbox of checkboxes) {
+            checkbox.checked = preset.includes(checkbox.value)
+        }
     }
 }

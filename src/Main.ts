@@ -2,10 +2,11 @@ import * as Plugin from 'iitcpluginkit'
 
 import {DialogHelper} from './DialogHelper'
 import {ExportHelper} from './ExportHelper'
+import {LocalStorageHelper} from './LocalStorageHelper'
+
+import {ExportOptions} from './types/Types'
 
 import './types/Types.ts'
-
-import {ExportOptions} from "./types/Types"
 
 const PLUGIN_NAME = 'KuKuExport'
 
@@ -13,9 +14,11 @@ class ExportPortals implements Plugin.Class {
 
     private selectionMode?: string
     private exportFormat: string = 'json'
+    private presets: Map<string, string[]>
 
     private dialogHelper: DialogHelper
     private exportHelper: ExportHelper
+    private localStorageHelper: LocalStorageHelper
 
     private dialog?: JQuery
 
@@ -27,6 +30,9 @@ class ExportPortals implements Plugin.Class {
 
         this.dialogHelper = new DialogHelper(PLUGIN_NAME)
         this.exportHelper = new ExportHelper()
+        this.localStorageHelper = new LocalStorageHelper(PLUGIN_NAME)
+
+        this.presets = this.localStorageHelper.loadMap('presets') ?? new Map()
 
         this.createButtons()
     }
@@ -40,7 +46,7 @@ class ExportPortals implements Plugin.Class {
 
     private showDialog(): void {
         if (!main.dialog) {
-            main.dialog = main.dialogHelper.getDialog()
+            main.dialog = main.dialogHelper.getDialog(main.presets)
             main.dialog.on('dialogclose', () => {
                 main.dialog = undefined
                 main.selectionMode = undefined
@@ -125,6 +131,24 @@ class ExportPortals implements Plugin.Class {
         a.click()
 
         URL.revokeObjectURL(url)
+    }
+
+    public savePreset() {
+        const input = document.getElementById(PLUGIN_NAME + '-Preset-Input') as HTMLFormElement
+        const name = input.value as string
+
+        if (!name) {
+            alert('Please enter a name')
+            return
+        }
+
+        this.presets.set(name, this.dialogHelper.findFieldOptions())
+
+        this.localStorageHelper.saveMap('presets', this.presets)
+    }
+
+    public applyPreset(name: string):void {
+        this.dialogHelper.applyPreset(name)
     }
 }
 
