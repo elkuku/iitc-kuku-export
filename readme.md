@@ -1,6 +1,6 @@
 # KuKu Export
 
-This is a plugin for [IITC](https://iitc.app/) to export portal data and user inventory information about keys (CORE required) together.
+This is a plugin for [IITC](https://iitc.app/) to export portal data and user inventory information about keys together (CORE required).
 
 ## Installation
 
