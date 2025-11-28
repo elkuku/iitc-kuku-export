@@ -38,6 +38,8 @@ const config = tseslint.config(
             "no-underscore-dangle": "error",
             "prefer-arrow-functions/prefer-arrow-functions": "error",
             "semi": ["error", "never"],
+            "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
+            "eol-last": "error"
         },
     },
     {
