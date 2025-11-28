@@ -116,7 +116,7 @@ class ExportPortals implements Plugin.Class {
         if (!element) return
 
         const blob = new Blob([element.value], {type: 'text/plain'})
-        const filename = `output.${this.exportFormat}`
+        const filename = 'output.' + this.exportFormat
 
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
