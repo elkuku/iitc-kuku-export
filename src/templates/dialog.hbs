@@ -49,11 +49,7 @@
                 <td>
                     {{#each fieldOptions.state}}
                         <label>
-                            <input type="checkbox" value="{{@key}}" name="chkFields"
-                                {{#if_eq @key 'guid'}}
-                                   onclick="return false;" checked="checked"
-                                {{/if_eq}}
-                            />
+                            <input type="checkbox" value="{{@key}}" name="chkFields" />
                             {{this}}
                             <br>
                         </label>
@@ -62,11 +58,7 @@
                 <td>
                     {{#each fieldOptions.inventory}}
                         <label>
-                            <input type="checkbox" value="{{@key}}" name="chkFields"
-                                {{#if_eq @key 'guid'}}
-                                   onclick="return false;" checked="checked"
-                                {{/if_eq}}
-                            />
+                            <input type="checkbox" value="{{@key}}" name="chkFields" />
                             {{this}}
                             <br>
                         </label>
@@ -74,7 +66,8 @@
                 </td>
             </tr>
         </table>
-        <label>Save to preset: <input id="{{prefix}}-Preset-Input"></label><button onclick="{{main}}.savePreset()">Save</button>
+        <label>Save to preset: <input id="{{prefix}}-Preset-Input"></label>
+        <button onclick="{{main}}.savePreset()">Save</button>
         <button onclick="{{main}}.confirmStep('Select-Format')" style="float: right">Confirm</button>
         <hr>
 
