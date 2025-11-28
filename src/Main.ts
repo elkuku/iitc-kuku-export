@@ -11,7 +11,7 @@ const PLUGIN_NAME = 'KuKuExport'
 
 class ExportPortals implements Plugin.Class {
 
-    private selectionMode: string
+    private selectionMode?: string
     private exportFormat: string = 'json'
 
     private dialogHelper: DialogHelper
@@ -43,6 +43,7 @@ class ExportPortals implements Plugin.Class {
             main.dialog = main.dialogHelper.getDialog()
             main.dialog.on('dialogclose', () => {
                 main.dialog = undefined
+                main.selectionMode = undefined
             })
         }
     }
