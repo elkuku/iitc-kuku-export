@@ -48,6 +48,7 @@ export interface KeyInfo {
 export interface ExportObject {
     guid: string,
     title?: string,
+    image?: string,
     lat?: number,
     lng?: number,
     level?: number,

@@ -37,6 +37,10 @@ export class ExportHelper {
                 exportObject.title = data.title
             }
 
+            if (options.fieldOptions.includes('image')) {
+                exportObject.image = data.image
+            }
+
             if (options.fieldOptions.includes('lat')) {
                 exportObject.lat = data.latE6 / 1e6
             }

@@ -150,6 +150,14 @@ class ExportPortals implements Plugin.Class {
     public applyPreset(name: string):void {
         this.dialogHelper.applyPreset(name)
     }
+
+    public deletePreset() {
+        const select = document.getElementById(PLUGIN_NAME + '-SelDeletePreset') as HTMLSelectElement
+
+        this.presets.delete(select.value)
+
+        this.localStorageHelper.saveMap('presets', this.presets)
+    }
 }
 
 export const main = new ExportPortals()

@@ -11,3 +11,14 @@
         <a href="https://t.me/nikp3h" target="_blank">Telegram: nikp3h</a>
     </li>
 </ul>
+
+<hr>
+<label>
+    Delete preset:
+    <select id="{{prefix}}-SelDeletePreset">
+        {{#each presets}}
+            <option>{{this}}</option>
+        {{/each}}
+    </select>
+</label>
+<button class="btnDelete" onclick="{{main}}.deletePreset()">Delete</button>

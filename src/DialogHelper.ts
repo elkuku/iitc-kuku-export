@@ -51,6 +51,7 @@ export class DialogHelper {
                 title: 'Title',
                 lat: 'Latitude',
                 lng: 'Longitude',
+                image: 'Image',
             },
             state: {
                 level: 'Level',
@@ -124,6 +125,9 @@ export class DialogHelper {
                 name: this.pluginName,
                 version: VERSION,
             },
+            presets: this.presets.keys(),
+            main: 'window.plugin.' + this.pluginName,
+            prefix: this.pluginName,
         }
 
         return window.dialog({
