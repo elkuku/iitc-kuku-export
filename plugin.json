@@ -6,5 +6,6 @@
   "author": "elkuku",
   "entry": "src/Main.ts",
   "minimize": false,
-  "changelog": ""
+  "changelog": "",
+  "downloadURL": "https://elkuku.github.io/iitc-kuku-export/files"
 }
