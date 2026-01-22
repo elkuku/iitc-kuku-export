@@ -6,9 +6,9 @@ This is a plugin for [IITC](https://iitc.app/) to export portal data, state and 
 
 First install the required helper plugin:
 
-* [Template Helper](https://elkuku.github.io/iitc-kuku-helper-handlebars/files/iitc_plugin_helper_handlebars.user.js)
+* [Template Helper](https://elkuku.github.io/iitc-kuku-helper-handlebars/files/release/iitc_plugin_helper_handlebars.user.js)
 
-Then install the [Inventory plugin](https://elkuku.github.io/iitc-kuku-export/files/iitc_plugin_KuKu_Export.user.js).
+Then install the [Inventory plugin](https://elkuku.github.io/iitc-kuku-export/files/release/iitc_plugin_KuKu_Export.user.js).
 
 ----
 
