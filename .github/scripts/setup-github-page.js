@@ -93,4 +93,20 @@ template = template
 
 fs.writeFileSync('gh_page/index.html', template, 'utf8')
 
+// Write plugin.json for the aggregator index (https://elkuku.github.io/iitc-plugins/)
+const aggregatorMeta = {
+    name:        pluginData.name,
+    id:          pluginData.id,
+    category:    pluginData.category,
+    description: pluginData.description,
+    author:      pluginData.author,
+    downloadURL: pluginData.downloadURL,
+    version:     version !== 'n/a' ? version : undefined,
+}
+
+// Remove undefined fields
+Object.keys(aggregatorMeta).forEach(k => aggregatorMeta[k] === undefined && delete aggregatorMeta[k])
+
+fs.writeFileSync('gh_page/plugin.json', JSON.stringify(aggregatorMeta, null, 2), 'utf8')
+
 console.log('Finished =;)')
