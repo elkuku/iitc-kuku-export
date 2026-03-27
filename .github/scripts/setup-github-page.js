@@ -93,6 +93,20 @@ template = template
 
 fs.writeFileSync('gh_page/index.html', template, 'utf8')
 
+const devMetaFile = devFiles.filter(fileName => fileName.endsWith('.meta.js'))[0]
+let betaVersion = null
+if (devMetaFile) {
+    const meta = fs.readFileSync(`build/dev/${devMetaFile}`, 'utf8')
+    const match = meta.match(/^\s*\/\/\s*@version\s+(.+)$/m)
+    betaVersion = match ? match[1].trim() : null
+}
+
+const devUserJsFile = devFiles.find(fileName => fileName.endsWith('.user.js') && !fileName.endsWith('.meta.js'))
+const baseUrl = pluginData.downloadURL ? pluginData.downloadURL.replace(/\/files\/release\/[^/]+$/, '') : null
+const betaDownloadURL = devUserJsFile && baseUrl ? `${baseUrl}/files/dev/${devUserJsFile}` : null
+
+const publishedAt = tags.length > 0 ? tags[0].date : undefined
+
 // Write plugin.json for the aggregator index (https://elkuku.github.io/iitc-plugins/)
 const aggregatorMeta = {
     name:        pluginData.name,
@@ -102,6 +116,8 @@ const aggregatorMeta = {
     author:      pluginData.author,
     downloadURL: pluginData.downloadURL,
     version:     version !== 'n/a' ? version : undefined,
+    publishedAt,
+    ...(betaVersion && {betaVersion, betaDownloadURL, betaPublishedAt: formattedDate}),
 }
 
 // Remove undefined fields
