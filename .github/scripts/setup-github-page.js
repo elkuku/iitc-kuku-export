@@ -114,6 +114,8 @@ const aggregatorMeta = {
     category:    pluginData.category,
     description: pluginData.description,
     author:      pluginData.author,
+    icon:        pluginData.icon,
+    minimize:    pluginData.minimize,
     downloadURL: pluginData.downloadURL,
     version:     version !== 'n/a' ? version : undefined,
     publishedAt,
