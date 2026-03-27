@@ -12,4 +12,8 @@ Then install the [Inventory plugin](https://elkuku.github.io/iitc-kuku-export/fi
 
 ----
 
+For more information visit the [GitHub page](https://elkuku.github.io/iitc-kuku-export/).
+
+----
+
 Made with :heart: and the [IITC Plugin Kit](https://github.com/McBen/IITCPluginKit)
