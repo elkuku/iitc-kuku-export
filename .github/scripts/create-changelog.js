@@ -23,7 +23,7 @@ function getTags() {
         return []
     }
 
-    const fields = output.split('\0').filter(Boolean)
+    const fields = output.trim().split('\0').filter(Boolean)
     const tags = []
 
     for (let i = 0; i < fields.length; i += 3) {
