@@ -158,7 +158,8 @@ export class DialogHelper {
         const handlebars = window.plugin.HelperHandlebars
 
         if (!handlebars) {
-            alert(this.pluginName + ' - Please install and activate the Handlebars helper plugin')
+            const dlURL = 'https://iitc.app/community_plugins#helper-handlebars-by-elkuku'
+            alert(`${this.pluginName} – Handlebars helper not found.<br>Please <a href="${dlURL}">download</a> and activate it.`)
             throw new Error('Handlebars helper not found')
         }
 
